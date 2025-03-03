@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +18,23 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("My App")));
+    return Scaffold(
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width*0.8,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          
+          children: [
+        
+            Text("Количество нажатий:", style: TextStyle(fontSize: 15)),
+        
+            ElevatedButton(
+              onPressed: () {},
+              child: Text("Увеличить", style: TextStyle(fontSize: 15)),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
-
-
