@@ -2,9 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:counter/extensions/context_extensions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final counterProvider = StateProvider<int>((ref) {
-  return 0;
-});
+final counterProvider = StateProvider<int>((ref) => 10);
+// final counterProvider = Provider<int>((ref) => 10);
+final counterNotifierProvider = StateNotifierProvider<CounterNotifier, int>(
+  (ref) => CounterNotifier(),
+);
+
+class CounterNotifier extends StateNotifier<int> {
+  CounterNotifier() : super(10);
+
+  void increment() => state++;
+  void decrement() => state--;
+}
+
 void main() {
   runApp(ProviderScope(child: App()));
 }
@@ -23,7 +33,7 @@ class Home extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final counter = ref.watch(counterProvider);
+    final counter = ref.watch(counterNotifierProvider);
 
     return Scaffold(
       body: Center(
@@ -39,7 +49,7 @@ class Home extends ConsumerWidget {
               Text('$counter', style: TextStyle(fontSize: 25)),
               SizedBox(height: 30),
               ElevatedButton(
-                onPressed: () => ref.read(counterProvider.notifier).state++,
+                onPressed: () => ref.read(counterNotifierProvider.notifier),
                 child: Text("Увеличить", style: TextStyle(fontSize: 15)),
               ),
 
