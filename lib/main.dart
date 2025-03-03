@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:counter/extensions/context_extensions.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final counterProvider = StateProvider<int>((ref) {
+  return 0;
+});
 void main() {
-  runApp(App());
+  runApp(ProviderScope(child: App()));
 }
 
 class App extends StatelessWidget {
@@ -14,24 +18,13 @@ class App extends StatelessWidget {
   }
 }
 
-class Home extends StatefulWidget {
+class Home extends ConsumerWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final counter = ref.watch(counterProvider);
 
-class _HomeState extends State<Home> {
-  var counter = 0;
-
-  void _incrementer() {
-    setState(() {
-      counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: SizedBox(
@@ -46,7 +39,7 @@ class _HomeState extends State<Home> {
               Text('$counter', style: TextStyle(fontSize: 25)),
               SizedBox(height: 30),
               ElevatedButton(
-                onPressed: _incrementer,
+                onPressed: () => ref.read(counterProvider.notifier).state++,
                 child: Text("Увеличить", style: TextStyle(fontSize: 15)),
               ),
 
